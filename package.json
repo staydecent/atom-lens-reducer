@@ -1,0 +1,35 @@
+{
+  "name": "atom-lens-reducer",
+  "version": "0.1.0",
+  "description": "Provides `set`, `update`, `remove` actions and corresponding reducer.",
+  "main": "bundle.js",
+  "scripts": {
+    "start": "rollup -c",
+    "std": "standard --verbose | snazzy",
+    "test": "npm run std"
+  },
+  "keywords": ["atom", "reducer", "redux", "flux", "actions"],
+  "author": "Adrian Unger <npm@staydecent.ca> (http://staydecent.ca)",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/staydecent/atom-lens-reducer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staydecent/atom-lens-reducer/issues"
+  },
+  "homepage": "https://github.com/staydecent/atom-lens-reducer#readme",
+  "dependencies": {
+    "check-arg-types": "1.1.0",
+    "ramda": "0.23.0"
+  },
+  "devDependencies": {
+    "rollup": "0.41.6",
+    "rollup-plugin-cleanup": "1.0.0",
+    "rollup-plugin-closure-compiler-js": "1.0.4",
+    "rollup-plugin-commonjs": "8.0.2",
+    "rollup-plugin-node-resolve": "3.0.0",
+    "snazzy": "7.0.0",
+    "standard": "9.0.2"
+  }
+}
