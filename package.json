@@ -1,6 +1,6 @@
 {
   "name": "atom-lens-reducer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Provides `set`, `update`, `remove` actions and corresponding reducer.",
   "main": "bundle.js",
   "scripts": {
