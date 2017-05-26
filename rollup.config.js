@@ -1,11 +1,13 @@
 import nodeResolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import babel from 'rollup-plugin-babel'
 import cleanup from 'rollup-plugin-cleanup'
-import closure from 'rollup-plugin-closure-compiler-js'
+import uglify from 'rollup-plugin-uglify'
+import filesize from 'rollup-plugin-filesize'
 
 export default {
   entry: 'index.js',
-  format: 'umd',
+  format: 'cjs',
   moduleName: 'lensReducer',
   dest: 'bundle.js',
   plugins: [
@@ -21,9 +23,13 @@ export default {
       // if false then skip sourceMap generation for CommonJS modules
       sourceMap: false  // Default: true
     }),
+    babel({
+      exclude: 'node_modules/**' // only transpile our source code
+    }),
     cleanup({
       comments: 'none'
     }),
-    closure()
+    uglify(),
+    filesize()
   ]
 }
