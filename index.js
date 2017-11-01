@@ -1,5 +1,6 @@
 import check from 'check-arg-types'
 
+import rPath from 'ramda/src/path'
 import merge from 'ramda/src/merge'
 import pick from 'ramda/src/pick'
 import curryN from 'ramda/src/curryN'
@@ -26,27 +27,34 @@ export const createAction = curryN(2, function (type, payload, extra) {
 // Actions
 
 const ATOM_SET = 'ATOM_SET'
-const setAction = createAction(ATOM_SET)
-export const set = (path, value) =>
-  setAction({
-    path: toType(path) === 'array' ? path : [path],
-    value
-  })
+export const set = (path, value, extra = {}) => {
+  const metaType = rPath(['meta', 'type'], extra)
+  return createAction(
+    `${ATOM_SET}${metaType ? `:${metaType}` : ''}`,
+    {path: toType(path) === 'array' ? path : [path], value},
+    extra
+  )
+}
 
 const ATOM_UPDATE = 'ATOM_UPDATE'
-const updateAction = createAction(ATOM_UPDATE)
-export const update = (path, value) =>
-  updateAction({
-    path: toType(path) === 'array' ? path : [path],
-    value
-  })
+export const update = (path, value, extra = {}) => {
+  const metaType = rPath(['meta', 'type'], extra)
+  return createAction(
+    `${ATOM_UPDATE}${metaType ? `:${metaType}` : ''}`,
+    {path: toType(path) === 'array' ? path : [path], value},
+    extra
+  )
+}
 
 const ATOM_REMOVE = 'ATOM_REMOVE'
-const removeAction = createAction(ATOM_REMOVE)
-export const remove = (path) =>
-  removeAction({
-    path: toType(path) === 'array' ? path : [path]
-  })
+export const remove = (path, extra = {}) => {
+  const metaType = rPath(['meta', 'type'], extra)
+  return createAction(
+    `${ATOM_REMOVE}${metaType ? `:${metaType}` : ''}`,
+    {path: toType(path) === 'array' ? path : [path]},
+    extra
+  )
+}
 
 // Reducers
 
@@ -76,17 +84,14 @@ const atomRemoveReducer = ({path}, state) =>
   dissocPath(path, state)
 
 export const reducer = ({type, payload}, state) => {
-  switch (type) {
-    case ATOM_SET:
+  if (type.indexOf(ATOM_SET) === 0)
       return atomSetReducer(payload, state)
 
-    case ATOM_UPDATE:
+  if (type.indexOf(ATOM_UPDATE) === 0)
       return atomUpdateReducer(payload, state)
 
-    case ATOM_REMOVE:
+  if (type.indexOf(ATOM_REMOVE) === 0)
       return atomRemoveReducer(payload, state)
 
-    default:
-      return state
-  }
+  return state
 }
